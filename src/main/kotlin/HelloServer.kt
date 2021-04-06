@@ -55,15 +55,12 @@ class FileService : FileServiceGrpc.FileServiceImplBase() {
     override fun reqRes(responseObserver: StreamObserver<file_proto.HelloResponse>?): StreamObserver<file_proto.HelloRequest> {
         return object : StreamObserver<file_proto.HelloRequest> {
             override fun onNext(value: file_proto.HelloRequest?) {
-                //println("[GRPC, Server] bidiHello() - onNext(${value?.greeting})")
-                for(i in 0 until 3) {
                     val resp = file_proto.HelloResponse.newBuilder()
-                        .setReply("\n${i}th Response to Client - (${value?.greeting})")
+                        .setReply("Response to Client - (${value?.greeting})")
                         .build()
                     responseObserver?.onNext(resp)
 
                     Thread.sleep(100)
-                }
             }
             override fun onError(t: Throwable?) {
                 println("[GRPC, Server] bidiHello() - onError()")
