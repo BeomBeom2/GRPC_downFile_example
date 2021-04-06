@@ -12,14 +12,13 @@ fun main() {
     val service = FileService()
     val server = ServerBuilder
         .forPort(10004) // ServerBuilder.forPort()에서  ProviderNotFoundException 발생, grpc-netty or grpc-netty-shaded를 종속성에 추가
-        .addService(FileService())
+        .addService(service)
         .build()
 
     println("[GRPC] server starts()")
     server.start()
     server.awaitTermination()
 
-    var file = PluginProtos.CodeGeneratorResponse.File.newBuilder()
 }
 
 class FileService : FileServiceGrpc.FileServiceImplBase() {
@@ -59,13 +58,11 @@ class FileService : FileServiceGrpc.FileServiceImplBase() {
                         .setReply("Response to Client - (${value?.greeting})")
                         .build()
                     responseObserver?.onNext(resp)
-
                     Thread.sleep(100)
             }
             override fun onError(t: Throwable?) {
                 println("[GRPC, Server] bidiHello() - onError()")
             }
-
             override fun onCompleted() {
                 println("[GRPC, Server] bidiHello() - onCompleted()")
                 responseObserver?.onCompleted()
@@ -82,7 +79,7 @@ class FileService : FileServiceGrpc.FileServiceImplBase() {
                 .build()
             responseObserver?.onNext(resp)
 
-            Thread.sleep(1000)
+            Thread.sleep(100)
         }
         responseObserver?.onCompleted()
     }

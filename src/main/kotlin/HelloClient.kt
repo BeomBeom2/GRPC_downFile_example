@@ -102,17 +102,14 @@ fun getHelloRequest(greeting: String): file_proto.HelloRequest {
 
 class HelloResponseStreamObserver : StreamObserver<file_proto.HelloResponse> {
     override fun onNext(value: file_proto.HelloResponse?) {
-        for(i in 0 until 2) {
-            println("[GRPC, Client] send version = ${value?.reply}")
-        }
-
+            println("[GRPC, Client] reqRes = ${value?.reply}")
     }
 
     override fun onError(t: Throwable?) {
-        println("[GRPC, Client] send version onError()")
+        println("[GRPC, Client] reqRes onError()")
     }
     override fun onCompleted() {
-        println("[GRPC, Client] send version onCompleted()")
+        println("[GRPC, Client] reqRes onCompleted()")
     }
 }
 
