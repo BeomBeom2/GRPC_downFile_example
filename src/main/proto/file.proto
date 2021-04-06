@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package com.main.file_proto;
+option java_outer_classname = "file_proto";
+
+service FileService {
+  rpc SayHello (HelloRequest) returns (HelloResponse);
+  rpc serverVersionInfo (ver_Request) returns (stream ver_Response);
+  rpc clientVersionInfo (stream ver_Request) returns (ver_Response);
+  rpc fileDown (HelloRequest) returns (stream file_Response);
+  rpc reqRes (stream HelloRequest) returns (stream HelloResponse);
+}
+
+message HelloRequest {
+  string greeting = 1;
+}
+
+message HelloResponse {
+  string reply = 1;
+}
+
+message ver_Request {
+  string version = 1;
+  string fileInfo = 2;
+  string hash = 3;
+}
+
+message ver_Response {
+  string version = 1;
+  string fileInfo = 2;
+  string hash = 3;
+  int32 verCount = 4;
+}
+
+message file_Request {
+  bytes fileBin = 1;
+  int32 fileSize = 2;
+  bool result = 3;
+}
+
+message file_Response {
+  bytes fileBin = 1;
+  int32 fileSize = 2;
+  string result = 3;
+}
